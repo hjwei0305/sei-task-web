@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { Form, Input, Checkbox, Row, Col } from "antd";
 import { formatMessage, } from "umi-plugin-react/locale";
-import { ExtModal, CronInput } from 'seid'
+import { ExtModal, CronInput, ComboGrid, } from 'seid'
 
 const TextArea = Input.TextArea;
 const FormItem = Form.Item;
@@ -29,6 +29,37 @@ class EditModal extends PureComponent {
       onSave(params);
     });
   };
+
+  getComboGridProps = () => {
+    const { form, } = this.props;
+    return {
+      form,
+      name: 'appModuleName',
+      store: {
+        autoLoad: false,
+        url: `/sei-basic/appModule/findAllUnfrozen`,
+      },
+      field: ['appModuleCode'],
+      columns: [
+        {
+          title: '代码',
+          width: 80,
+          dataIndex: 'code',
+        },
+        {
+          title: '名称',
+          width: 220,
+          dataIndex: 'name',
+        },
+      ],
+      searchProperties: ['code', 'name'],
+      rowKey: "id",
+      reader: {
+        name: 'name',
+        field: ['code',],
+      },
+    };
+  }
 
   render() {
     const { form, editData, onClose, saving, visible } = this.props;
@@ -75,7 +106,29 @@ class EditModal extends PureComponent {
                   <Input/>
               )}
           </FormItem>
-          <Row>
+          <FormItem
+              labelCol={{span: 5}}
+              wrapperCol={{span: 19}}
+              label='应用模块'
+          >
+              {getFieldDecorator('appModuleName', {
+                initialValue: editData ? editData.appModuleName : "",
+                rules: [{required: true, message: '请选择应用模块'}]
+              })(
+                  <ComboGrid {...this.getComboGridProps()}/>
+              )}
+          </FormItem>
+          <FormItem
+              {...formItemLayout}
+              style={{display: "none"}}
+              label='应用模块代码'>
+              {getFieldDecorator('appModuleCode', {
+                  initialValue: editData ? editData.appModuleCode : "",
+              })(
+                  <Input/>
+              )}
+          </FormItem>
+{/*          <Row>
               <Col span={12}>
                   <FormItem
                       {...formItemLayout}
@@ -101,7 +154,7 @@ class EditModal extends PureComponent {
                       )}
                   </FormItem>
               </Col>
-          </Row>
+          </Row>*/}
           <FormItem
             labelCol={{span: 5}}
             wrapperCol={{span: 19}}
