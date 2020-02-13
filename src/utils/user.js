@@ -2,7 +2,7 @@ import { utils } from 'seid';
 
 const { sessionStorage, localStorage } = utils.storage;
 const { CONST_GLOBAL } = utils.constants;
-const { CURRENT_USER, TOKEN_KEY, CURRENT_LOCALE } = CONST_GLOBAL;
+const { CURRENT_USER, TOKEN_KEY, CURRENT_LOCALE, AUTH, POLICY, } = CONST_GLOBAL;
 
 /** 用户信息保存到session */
 export const setCurrentUser = user => {
@@ -13,6 +13,9 @@ export const setCurrentUser = user => {
 export const getCurrentUser = () => sessionStorage.get(CURRENT_USER);
 
 export const getCurrentLocale = () => localStorage.get(CURRENT_LOCALE);
+
+export const setCurrentAuth = auths => sessionStorage.set(AUTH, auths);
+export const setCurrentPolicy = policy => sessionStorage.set(POLICY, policy);
 
 export const setCurrentLocale = locale => {
   localStorage.set(CURRENT_LOCALE, locale);

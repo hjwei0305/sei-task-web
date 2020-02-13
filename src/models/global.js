@@ -2,9 +2,18 @@ import router from "umi/router";
 import { stringify } from "qs";
 import { message } from "antd";
 import { userUtils } from '@/utils';
-import { login } from "@/services/api";
+import { login, getAuthorizedFeatures } from "@/services/api";
 
-const { clearUserInfo, getCurrentLocale, setCurrentLocale, setCurrentUser, setSessionId, } = userUtils;
+const {
+  clearUserInfo,
+  getCurrentLocale,
+  setCurrentLocale,
+  setCurrentUser,
+  setSessionId,
+  getCurrentUser,
+  setCurrentAuth,
+  setCurrentPolicy,
+} = userUtils;
 
 const locale = getCurrentLocale() || 'zh-CN';
 
@@ -48,12 +57,15 @@ export default {
     * login({ payload }, { call, select }) {
       const { locationQuery } = yield select(_ => _.global);
       const res = yield call(login, payload);
+      const { success, data, message: msg } = res || {};
+      const { loginStatus, authorityPolicy, sessionId, } = data || {};
       message.destroy();
       clearUserInfo();
-      if (res.success) {
+      if (success && loginStatus === 'success') {
         message.success("登录成功");
-        setCurrentUser(res.data);
-        setSessionId(res.data.sessionId);
+        setCurrentUser(data);
+        setSessionId(sessionId);
+        setCurrentPolicy(authorityPolicy);
         const { from } = locationQuery;
         if (from && from.indexOf("/user/login") === -1) {
           if (from === "/") {
@@ -66,7 +78,15 @@ export default {
           router.push("/");
         }
       } else {
-        message.error("登录失败");
+        message.error(msg);
+      }
+      return res;
+    },
+    * getUserFeatures(_, { call }) {
+      const user = getCurrentUser();
+      const result = yield call(getAuthorizedFeatures, user.userId);
+      if (result && result.success) {
+        setCurrentAuth(result.data);
       }
     },
     * changeLocale({ payload }, { put, select }) {

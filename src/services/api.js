@@ -28,3 +28,8 @@ export async function logout(params) {
   });
 }
 
+/** 获取当前用户有权限的功能项集合 */
+export async function getAuthorizedFeatures(userId) {
+  return request.get(`${AUTH_SERVER_PATH}/auth/getAuthorizedFeatures?userId=${userId}`);
+}
+
