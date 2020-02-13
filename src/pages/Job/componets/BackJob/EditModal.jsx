@@ -48,15 +48,20 @@ class EditModal extends PureComponent {
         },
         {
           title: '名称',
-          width: 220,
+          width: 120,
           dataIndex: 'name',
+        },
+        {
+          title: 'API基地址',
+          width: 220,
+          dataIndex: 'apiBaseAddress',
         },
       ],
       searchProperties: ['code', 'name'],
       rowKey: "id",
       reader: {
         name: 'name',
-        field: ['code',],
+        field: ['apiBaseAddress',],
       },
     };
   }
