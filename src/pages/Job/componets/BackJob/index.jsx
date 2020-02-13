@@ -90,6 +90,9 @@ class BackJob extends Component {
               onClick={_ => this.handleEvent('edit', record)}
               type="edit"
               ignore='true'
+              tooltip={
+                { title: '编辑' }
+              }
               antd
             />
             <Popconfirm
@@ -97,19 +100,32 @@ class BackJob extends Component {
               title={formatMessage({ id: "global.delete.confirm", defaultMessage: "确定要删除吗？提示：删除后不可恢复" })}
               onConfirm={_ => this.handleEvent('del', record)}
             >
-              <ExtIcon className="del" type="delete" antd />
+              <ExtIcon
+                className="del"
+                type="delete"
+                tooltip={
+                  { title: '删除' }
+                }
+                antd
+              />
             </Popconfirm>
             <ExtIcon
               onClick={_ => this.handleEvent('history', record)}
               className="history"
               type="history"
               antd
+              tooltip={
+                { title: '查看执行历史' }
+              }
             />
             <ExtIcon
               onClick={_ => this.handleEvent('append', record)}
               className="plus"
               type="plus"
               antd
+              tooltip={
+                { title: '添加到调度器中' }
+              }
             />
           </span>
         )

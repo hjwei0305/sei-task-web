@@ -2,7 +2,7 @@
 * @Author: zp
 * @Date:   2020-02-12 13:10:36
 * @Last Modified by:   zp
-* @Last Modified time: 2020-02-12 20:53:43
+* @Last Modified time: 2020-02-13 11:23:53
 */
 import { request, constants } from '@/utils';
 
@@ -17,7 +17,7 @@ export const saveJob = async(data) => {
 }
 
 export const delJob = async(id) => {
-  return request.delete(`${TASK_SERVER_PATH}/job/save/${id}`);
+  return request.delete(`${TASK_SERVER_PATH}/job/delete/${id}`);
 }
 
 /** 在调度器中暂停一个作业 */

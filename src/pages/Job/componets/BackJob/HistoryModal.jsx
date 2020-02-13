@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Dropdown, Button, Menu } from "antd";
+import { Button, Tooltip } from "antd";
 import { FormattedMessage, } from "umi-plugin-react/locale";
 import { ExtModal, ExtTable, } from 'seid';
 import { constants } from '@/utils';
@@ -46,18 +46,9 @@ class HistoryModal extends PureComponent {
         dataIndex: 'exceptionMessage',
         width: 160,
         render: (text) => (
-          <Dropdown
-            overlayStyle={{width: 300}}
-            overlay={
-              <Menu>
-                <Menu.Item>
-                  <div  style={{whiteSpace:"normal",wordBreak:"break-all"}}>{text}</div>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            {text}
-          </Dropdown>
+          <Tooltip title={text}>
+            <a href="">{text}</a>
+          </Tooltip>
         )
       },
     ];

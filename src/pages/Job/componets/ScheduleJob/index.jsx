@@ -46,6 +46,9 @@ class ScheduleJob extends Component {
               onClick={_ => this.handleEvent('triggerJob', record)}
               type="caret-right"
               ignore='true'
+              tooltip={
+                { title: '立即执行' }
+              }
               antd
             />
             <Popconfirm
@@ -55,17 +58,26 @@ class ScheduleJob extends Component {
             >
               <ExtIcon
                 type="pause"
+                tooltip={
+                  { title: '暂停' }
+                }
                 antd
               />
             </Popconfirm>
             <ExtIcon
               type="fire"
               onClick={_ => this.handleEvent('resumeJob', record)}
+              tooltip={
+                { title: '唤醒' }
+              }
               antd
             />
             <ExtIcon
               type="highlight"
               antd
+              tooltip={
+                { title: '更新Corn' }
+              }
               onClick={_ => this.handleEvent('rescheduleJob', record)}
             />
           </span>
