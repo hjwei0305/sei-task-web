@@ -65,6 +65,7 @@ class HistoryModal extends PureComponent {
       columns,
       bordered: false,
       remotePaging: true,
+      searchProperties: ['message', 'exceptionMessage'],
       store: {
         type: 'POST',
         url: `${TASK_SERVER_PATH}/jobHistory/findByPage`,
