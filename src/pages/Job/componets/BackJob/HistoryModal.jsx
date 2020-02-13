@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Button, Tooltip } from "antd";
+import { Button, Tooltip, Tag, } from "antd";
 import { FormattedMessage, } from "umi-plugin-react/locale";
 import { ExtModal, ExtTable, } from 'seid';
 import { constants } from '@/utils';
@@ -31,10 +31,9 @@ class HistoryModal extends PureComponent {
       {
         title: '执行成功',
         width: 80,
-        render: (text, record, index) => (
-          <div style={{textAlign: "center"}}>
-            <input type="checkbox" checked={record.successful} disabled={true}/>
-          </div>
+        dataIndex: 'successful',
+        render: (text) => (
+          <Tag color={text ? 'green' : 'red' }>{text? '是' : '否'}</Tag>
         )
       },
       {
