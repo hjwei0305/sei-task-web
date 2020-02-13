@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import { Button, Tooltip, Tag, } from "antd";
 import { FormattedMessage, } from "umi-plugin-react/locale";
 import { ExtModal, ExtTable, } from 'seid';
+import moment from 'moment';
 import { constants } from '@/utils';
 
 const { TASK_SERVER_PATH, } = constants;
@@ -18,7 +19,8 @@ class HistoryModal extends PureComponent {
       {
         title: '开始时间',
         dataIndex: 'startTime',
-        width: 160
+        width: 180,
+        render: (text) => (moment(text).format('YYYY-MM-DD HH:mm:ss')),
       },
       {
         title: '耗时',
@@ -43,7 +45,7 @@ class HistoryModal extends PureComponent {
       {
         title: '异常消息',
         dataIndex: 'exceptionMessage',
-        width: 160,
+        width: 220,
         render: (text) => (
           <Tooltip title={text}>
             <a href="">{text}</a>

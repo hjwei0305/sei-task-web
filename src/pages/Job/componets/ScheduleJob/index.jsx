@@ -2,6 +2,7 @@ import React, { Component, } from 'react';
 import { connect, } from 'dva';
 import { Popconfirm, Button, } from 'antd';
 import { ExtTable, ExtIcon } from 'seid';
+import moment from 'moment';
 import { formatMessage, FormattedMessage, } from "umi-plugin-react/locale";
 import cls from 'classnames';
 import { constants } from '@/utils';
@@ -106,6 +107,7 @@ class ScheduleJob extends Component {
         dataIndex: "nextFireTime",
         width: 200,
         required: true,
+        render: (text) => (moment(text).format('YYYY-MM-DD HH:mm:ss'))
       },
       {
         title: "调度周期",
