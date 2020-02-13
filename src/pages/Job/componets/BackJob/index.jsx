@@ -54,6 +54,10 @@ class BackJob extends Component {
         dispatch({
           type: 'job/delJob',
           payload: row.id,
+        }).then(res => {
+          if (res && res.success) {
+            this.reloadData();
+          }
         });
         break;
       case 'history':
