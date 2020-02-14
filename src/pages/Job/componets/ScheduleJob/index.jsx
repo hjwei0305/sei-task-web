@@ -10,7 +10,7 @@ import TriggerTimesPopover from '../TriggerTimesPopover';
 
 const { TASK_SERVER_PATH, } = constants;
 
-@connect(({ job }) => ({ job, }))
+@connect(({ job, loading }) => ({ job, loading, }))
 class ScheduleJob extends Component {
 
   reloadData = () => {
@@ -33,9 +33,10 @@ class ScheduleJob extends Component {
   }
 
   getPopoverProps = (cron) => {
-    const { job, dispatch, } = this.props;
+    const { job, dispatch, loading, } = this.props;
 
     return {
+      loading: loading.effects['job/getTriggerTimes'],
       dataSource: job.triggerTimes,
       onVisibleChange: (visible) => {
         if (visible) {

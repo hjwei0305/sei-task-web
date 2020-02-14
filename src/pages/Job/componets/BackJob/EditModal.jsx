@@ -1,7 +1,9 @@
 import React, { PureComponent } from "react";
-import { Form, Input, Checkbox, Row, Col } from "antd";
+import { connect, } from 'dva';
+import { Form, Input, Checkbox, Row, Col, message, } from "antd";
 import { formatMessage, } from "umi-plugin-react/locale";
 import { ExtModal, CronInput, ComboGrid, } from 'seid'
+import TriggerTimesPopover from '../TriggerTimesPopover';
 
 const TextArea = Input.TextArea;
 const FormItem = Form.Item;
@@ -13,7 +15,10 @@ const formItemLayout = {
     span: 14
   }
 };
+let firstIn = true;
+let editCron = null;
 
+@connect(({job, loading }) => ({ job, loading, }))
 @Form.create()
 class EditModal extends PureComponent {
 
@@ -64,6 +69,63 @@ class EditModal extends PureComponent {
         field: ['apiBaseAddress',],
       },
     };
+  }
+
+  getPopoverProps = () => {
+    const { job, dispatch, loading, form, editData } = this.props;
+    let cron = form.getFieldValue('cronExp');
+    if (editData && editCron) {
+      cron = editCron;
+      editCron = null;
+    }
+    return {
+      loading: loading.effects['job/getTriggerTimes'],
+      placement: 'left',
+      dataSource: job.triggerTimes,
+      onVisibleChange: (visible) => {
+        if (visible) {
+          dispatch({
+            type: 'job/getTriggerTimes',
+            payload: {
+              cron,
+            }
+          });
+        } else {
+          dispatch({
+            type: 'job/updateState',
+            payload: {
+              triggerTimes: [],
+            }
+          });
+        }
+      }
+    }
+  }
+
+  getCronLabel = () => {
+    const { form, editData, } = this.props;
+    let cron = form.getFieldValue('cronExp');
+
+    if (firstIn && editData) {
+      cron = editData.cronExp;
+      firstIn = false;
+      editCron = editData.cronExp;
+    }
+
+    let compoent = (
+      <a onClick={(e) => {
+        message.warn('最近十次的执行时间清单前, 请先选择cron表达式!');
+      }}>Cron表达式</a>
+    );
+
+    if (cron) {
+      compoent = <TriggerTimesPopover
+        {...this.getPopoverProps()}
+      >
+        <a>Cron表达式</a>
+      </TriggerTimesPopover>;
+    }
+    return compoent;
   }
 
   render() {
@@ -133,37 +195,10 @@ class EditModal extends PureComponent {
                   <Input/>
               )}
           </FormItem>
-{/*          <Row>
-              <Col span={12}>
-                  <FormItem
-                      {...formItemLayout}
-                      label='应用模块代码'>
-                      {getFieldDecorator('appModuleCode', {
-                          initialValue: editData ? editData.appModuleCode : "",
-                          rules: [{required: true, message: '请填写应用模块代码!'}]
-                      })(
-                          <Input/>
-                      )}
-                  </FormItem>
-              </Col>
-              <Col span={12}>
-                  <FormItem
-                      {...formItemLayout}
-                      label='应用模块名称'
-                  >
-                      {getFieldDecorator('appModuleName', {
-                          initialValue: editData ? editData.appModuleName : "",
-                          rules: [{required: true, message: '请填写应用模块名称!'}]
-                      })(
-                          <Input/>
-                      )}
-                  </FormItem>
-              </Col>
-          </Row>*/}
           <FormItem
             labelCol={{span: 5}}
             wrapperCol={{span: 19}}
-            label='Cron表达式'
+            label={this.getCronLabel()}
           >
               {getFieldDecorator('cronExp', {
                   initialValue: editData ? editData.cronExp : "",

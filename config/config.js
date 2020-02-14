@@ -14,6 +14,7 @@ export default {
   treeShaking: true,
   ignoreMomentLocale: true,
   targets: { ie: 11 },
+  hash: true,
   base: `${base}/`,
   publicPath: `${base}/`,
   mountElementId: name,

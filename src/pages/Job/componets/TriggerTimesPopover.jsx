@@ -20,10 +20,11 @@ export default class TriggerTimesPopover extends React.PureComponent {
   }
 
   getContent = () => {
-    const { dataSource, } = this.props;
+    const { dataSource, loading } = this.props;
 
     return (
-        <div style={{ width: 250, height: 300}}>
+      <div style={{ width: 250, height: 300}}>
+        <Skeleton loading={loading} active>
           <ScrollBar>
             <List
               itemLayout="vertical"
@@ -36,17 +37,18 @@ export default class TriggerTimesPopover extends React.PureComponent {
               }}
             />
           </ScrollBar>
-        </div>
+        </Skeleton>
+      </div>
     );
   }
 
   render() {
-    const { children, } = this.props;
+    const { children, placement="right" } = this.props;
     const { visible,} = this.state;
 
     return (
       <Popover
-        placement="right"
+        placement={placement}
         title={'未来最近10次的执行时间'}
         content={this.getContent()}
         trigger="click"
