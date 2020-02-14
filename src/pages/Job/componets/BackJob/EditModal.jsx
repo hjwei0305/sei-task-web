@@ -15,12 +15,14 @@ const formItemLayout = {
     span: 14
   }
 };
-let firstIn = true;
-let editCron = null;
 
 @connect(({job, loading }) => ({ job, loading, }))
 @Form.create()
 class EditModal extends PureComponent {
+
+  firstIn = true;
+
+  editCron = null;
 
   onFormSubmit = _ => {
     const { form, onSave, editData } = this.props;
@@ -74,9 +76,9 @@ class EditModal extends PureComponent {
   getPopoverProps = () => {
     const { job, dispatch, loading, form, editData } = this.props;
     let cron = form.getFieldValue('cronExp');
-    if (editData && editCron) {
-      cron = editCron;
-      editCron = null;
+    if (editData && this.editCron) {
+      cron = this.editCron;
+      this.editCron = null;
     }
     return {
       loading: loading.effects['job/getTriggerTimes'],
@@ -106,10 +108,10 @@ class EditModal extends PureComponent {
     const { form, editData, } = this.props;
     let cron = form.getFieldValue('cronExp');
 
-    if (firstIn && editData) {
+    if (this.firstIn && editData) {
       cron = editData.cronExp;
-      firstIn = false;
-      editCron = editData.cronExp;
+      this.firstIn = false;
+      this.editCron = editData.cronExp;
     }
 
     let compoent = (
