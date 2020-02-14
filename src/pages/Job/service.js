@@ -2,7 +2,7 @@
 * @Author: zp
 * @Date:   2020-02-12 13:10:36
 * @Last Modified by:   zp
-* @Last Modified time: 2020-02-13 11:23:53
+* @Last Modified time: 2020-02-14 16:44:09
 */
 import { request, constants } from '@/utils';
 
@@ -38,5 +38,10 @@ export const resumeJob = async(id) => {
 /** 立即执行一个已经调度的作业 */
 export const triggerJob = async(id) => {
   return request.post(`${TASK_SERVER_PATH}/scheduleJob/triggerJob/${id}`);
+}
+
+/** 从调度器中移除一个作业 */
+export const removeJob = async(id) => {
+  return request.post(`${TASK_SERVER_PATH}/scheduleJob/removeJob/${id}`);
 }
 

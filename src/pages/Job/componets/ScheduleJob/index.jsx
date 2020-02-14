@@ -81,6 +81,20 @@ class ScheduleJob extends Component {
               }
               onClick={_ => this.handleEvent('rescheduleJob', record)}
             />
+            <Popconfirm
+              placement="topLeft"
+              title={formatMessage({ id: "global.delete.confirm", defaultMessage: "确定要删除吗？提示：删除后不可恢复" })}
+              onConfirm={_ => this.handleEvent('removeJob', record)}
+            >
+              <ExtIcon
+                type="del"
+                type="delete"
+                antd
+                tooltip={
+                  { title: '移除' }
+                }
+              />
+            </Popconfirm>
           </span>
         )
       },

@@ -2,9 +2,9 @@
 * @Author: zp
 * @Date:   2020-02-12 13:10:25
 * @Last Modified by:   zp
-* @Last Modified time: 2020-02-12 20:50:55
+* @Last Modified time: 2020-02-14 16:40:22
 */
-import { addJob, saveJob, delJob, pauseJob, rescheduleJob, resumeJob, triggerJob, } from "./service";
+import { addJob, saveJob, delJob, pauseJob, rescheduleJob, resumeJob, triggerJob, removeJob, } from "./service";
 import { message } from "antd";
 import { formatMessage } from "umi-plugin-react/locale";
 import { utils } from 'seid';
@@ -16,6 +16,7 @@ const scheduleJob = {
   rescheduleJob,
   resumeJob,
   triggerJob,
+  removeJob,
 };
 export default modelExtend(model, {
   namespace: "job",
