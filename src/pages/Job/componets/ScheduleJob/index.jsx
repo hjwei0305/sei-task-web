@@ -36,7 +36,7 @@ class ScheduleJob extends Component {
       {
         title: formatMessage({ id: "global.operation", defaultMessage: "操作" }),
         key: "operation",
-        width: 150,
+        width: 180,
         align: "center",
         dataIndex: "id",
         className: "action",
