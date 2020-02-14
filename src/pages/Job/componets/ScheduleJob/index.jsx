@@ -6,10 +6,11 @@ import moment from 'moment';
 import { formatMessage, FormattedMessage, } from "umi-plugin-react/locale";
 import cls from 'classnames';
 import { constants } from '@/utils';
+import TriggerTimesPopover from '../TriggerTimesPopover';
 
 const { TASK_SERVER_PATH, } = constants;
 
-@connect(( job, ) => ({ job, }))
+@connect(({ job }) => ({ job, }))
 class ScheduleJob extends Component {
 
   reloadData = () => {
@@ -29,6 +30,31 @@ class ScheduleJob extends Component {
         this.reloadData();
       }
     });
+  }
+
+  getPopoverProps = (cron) => {
+    const { job, dispatch, } = this.props;
+
+    return {
+      dataSource: job.triggerTimes,
+      onVisibleChange: (visible) => {
+        if (visible) {
+          dispatch({
+            type: 'job/getTriggerTimes',
+            payload: {
+              cron,
+            }
+          });
+        } else {
+          dispatch({
+            type: 'job/updateState',
+            payload: {
+              triggerTimes: [],
+            }
+          });
+        }
+      }
+    }
   }
 
   getExtTableProps = () => {
@@ -128,6 +154,15 @@ class ScheduleJob extends Component {
         dataIndex: "cronExpression",
         width: 220,
         required: true,
+        render: (cron) => {
+          return (
+            <TriggerTimesPopover
+              {...this.getPopoverProps(cron)}
+            >
+              <a>{cron}</a>
+            </TriggerTimesPopover>
+          );
+        }
       },
       {
         title: "作业说明",

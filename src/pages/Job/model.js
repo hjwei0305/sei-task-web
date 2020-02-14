@@ -2,9 +2,9 @@
 * @Author: zp
 * @Date:   2020-02-12 13:10:25
 * @Last Modified by:   zp
-* @Last Modified time: 2020-02-14 16:40:22
+* @Last Modified time: 2020-02-14 17:58:27
 */
-import { addJob, saveJob, delJob, pauseJob, rescheduleJob, resumeJob, triggerJob, removeJob, } from "./service";
+import { addJob, saveJob, delJob, pauseJob, rescheduleJob, resumeJob, triggerJob, removeJob, getRecentTriggerTimes, } from "./service";
 import { message } from "antd";
 import { formatMessage } from "umi-plugin-react/locale";
 import { utils } from 'seid';
@@ -24,6 +24,8 @@ export default modelExtend(model, {
   state: {
     currJobData: null,
     currScheData: null,
+    triggerTimes: [],
+    timesLoading: false,
   },
   effects: {
     * addJob({ payload }, { call, put }) {
@@ -46,11 +48,28 @@ export default modelExtend(model, {
       }
       return re;
     },
-    * delJob({ payload }, { call, put }) {
+    * delJob({ payload }, { call }) {
       const re = yield call(delJob, payload);
       message.destroy();
       if (re.success) {
         message.success("删除成功");
+      } else {
+        message.error(re.message);
+      }
+      return re;
+    },
+    * getTriggerTimes({ payload }, { call, put }) {
+      const re = yield call(getRecentTriggerTimes, payload);
+      message.destroy();
+
+      if (re.success) {
+        yield put({
+          type: "updateState",
+          payload: {
+            triggerTimes: re.data || [],
+            timesLoading: false,
+          }
+        });
       } else {
         message.error(re.message);
       }

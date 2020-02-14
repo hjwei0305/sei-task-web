@@ -6,6 +6,7 @@ import { formatMessage, FormattedMessage, } from "umi-plugin-react/locale";
 import cls from 'classnames';
 import EditModal from './EditModal';
 import HistoryModal from './HistoryModal';
+import TriggerTimesPopover from '../TriggerTimesPopover';
 import { constants } from '@/utils';
 
 const { TASK_SERVER_PATH, } = constants;
@@ -74,6 +75,32 @@ class BackJob extends Component {
         break;
       default:
         break;
+    }
+  }
+
+  getPopoverProps = (cron) => {
+    const { job, loading, dispatch, } = this.props;
+
+    return {
+      loading: loading.effects['job/getTriggerTimes'],
+      dataSource: job.triggerTimes,
+      onVisibleChange: (visible) => {
+        if (visible) {
+          dispatch({
+            type: 'job/getTriggerTimes',
+            payload: {
+              cron,
+            }
+          });
+        } else {
+          dispatch({
+            type: 'job/updateState',
+            payload: {
+              triggerTimes: [],
+            }
+          });
+        }
+      }
     }
   }
 
@@ -151,6 +178,15 @@ class BackJob extends Component {
         dataIndex: "cronExp",
         width: 220,
         required: true,
+        render: (cron) => {
+          return (
+            <TriggerTimesPopover
+              {...this.getPopoverProps(cron)}
+            >
+              <a>{cron}</a>
+            </TriggerTimesPopover>
+          );
+        }
       },
       {
         title: "作业说明",

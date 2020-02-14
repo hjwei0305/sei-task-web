@@ -2,7 +2,7 @@
 * @Author: zp
 * @Date:   2020-02-12 13:10:36
 * @Last Modified by:   zp
-* @Last Modified time: 2020-02-14 16:44:09
+* @Last Modified time: 2020-02-14 17:15:14
 */
 import { request, constants } from '@/utils';
 
@@ -18,6 +18,15 @@ export const saveJob = async(data) => {
 
 export const delJob = async(id) => {
   return request.delete(`${TASK_SERVER_PATH}/job/delete/${id}`);
+}
+
+/** 获取指定Cron表达式最近十次的执行时间清单 */
+export const getRecentTriggerTimes = async(params) => {
+  return request({
+    url: `${TASK_SERVER_PATH}/job/getRecentTriggerTimes`,
+    method: 'GET',
+    params,
+  });
 }
 
 /** 在调度器中暂停一个作业 */
