@@ -1,7 +1,7 @@
 import router from "umi/router";
 import { stringify } from "qs";
 import { message } from "antd";
-import { userUtils } from '@/utils';
+import { userUtils, eventBus } from '@/utils';
 import { login, getAuthorizedFeatures } from "@/services/api";
 
 const {
@@ -36,6 +36,13 @@ export default {
             locationQuery: location.query
           }
         });
+      });
+    },
+    eventBusListenter({ dispatch, }) {
+      eventBus.addListener('redirectLogin', _ => {
+        dispatch({
+          type: 'redirectLogin',
+        })
       });
     }
   },
