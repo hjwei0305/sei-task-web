@@ -41,6 +41,7 @@ class HistoryModal extends PureComponent {
       },
       {
         title: '执行消息',
+        width: 220,
         dataIndex: 'message'
       },
       {
