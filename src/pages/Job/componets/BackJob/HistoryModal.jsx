@@ -25,7 +25,7 @@ class HistoryModal extends PureComponent {
       {
         title: '耗时',
         dataIndex: 'elapsed',
-        width: 180,
+        width: 120,
         render(text) {
           const d = moment.duration(text, 'milliseconds');
           const hours = d.hours();
@@ -50,13 +50,13 @@ class HistoryModal extends PureComponent {
       },
       {
         title: '执行消息',
-        width: 220,
+        width: 180,
         dataIndex: 'message'
       },
       {
         title: '异常消息',
         dataIndex: 'exceptionMessage',
-        width: 220,
+        width: 140,
         render: (text) => (
           <Tooltip title={text}>
             <a href="">{text}</a>
@@ -106,7 +106,7 @@ class HistoryModal extends PureComponent {
         centered
         maskClosable={false}
         title={title}
-        width={750}
+        width={850}
         footer={null}
       >
         <ExtTable onTableRef={inst => this.tableRef = inst} {...this.getExtableProps()}/>
