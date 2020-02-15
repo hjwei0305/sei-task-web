@@ -28,7 +28,16 @@ class HistoryModal extends PureComponent {
         width: 180,
         render(text) {
           const d = moment.duration(text, 'milliseconds');
-          return `${d.hours()}小时${d.minutes()}分钟${d.seconds()}秒${d.milliseconds()}毫秒`;
+          const hours = d.hours();
+          const minutes= d.minutes();
+          const seconds = d.seconds();
+          const milliseconds = d.milliseconds();
+          const tempArr = [];
+          hours && tempArr.push(`${hours}小时`);
+          minutes && tempArr.push(`${minutes}分钟`);
+          seconds && tempArr.push(`${seconds}秒`);
+          milliseconds && tempArr.push(`${milliseconds}毫秒`);
+          return tempArr.join('');
         }
       },
       {
