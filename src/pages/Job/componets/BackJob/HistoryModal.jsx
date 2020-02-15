@@ -25,9 +25,10 @@ class HistoryModal extends PureComponent {
       {
         title: '耗时',
         dataIndex: 'elapsed',
-        width: 80,
+        width: 180,
         render(text) {
-          return <div style={{textAlign: "right"}}>{text}</div>
+          const d = moment.duration(3600100, 'milliseconds');
+          return `${d.hours()}小时${d.minutes()}分钟${d.seconds()}秒${d.milliseconds()}毫秒`;
         }
       },
       {
