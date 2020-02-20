@@ -21,6 +21,6 @@ export const AUTH_SERVER_PATH = '/sei-auth';
 
 export const TASK_SERVER_PATH = '/sei-task';
 
-export const GATEWAY_CONTEXTPATH = '/sei-gateway';
+export const GATEWAY_CONTEXTPATH = '/api-gateway';
 
 export const BASE_URL = getBaseUrl();
