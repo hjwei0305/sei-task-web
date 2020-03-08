@@ -89,6 +89,7 @@ class HistoryModal extends PureComponent {
             operator: "EQ",
             fieldType: "String",
           }],
+          sortOrders:[{property:'startTime',direction:'DESC'}]
         },
       }
     };
