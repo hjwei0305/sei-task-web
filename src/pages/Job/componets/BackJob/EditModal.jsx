@@ -276,6 +276,45 @@ class EditModal extends PureComponent {
                   <TextArea autoSize={{minRows: 3, maxRows: 3}}/>
               )}
           </FormItem>
+          <Row>
+              <Col span={12}>
+                  <FormItem
+                      {...formItemLayout}
+                      label="执行人租户代码"
+                  >
+                      {getFieldDecorator('exeTenantCode', {
+                          initialValue: editData ? editData.exeTenantCode : "",
+                          // rules: [{required: true, message: '请填写执行人租户代码!'}]
+                      })(
+                          <Input />
+                      )}
+                  </FormItem>
+              </Col>
+              <Col span={12}>
+                  <FormItem
+                      {...formItemLayout}
+                      label="执行人账号"
+                  >
+                      {getFieldDecorator('exeAccount', {
+                          initialValue: editData ? editData.exeAccount : '',
+                      })(
+                          <Input />
+                      )}
+                  </FormItem>
+              </Col>
+          </Row>
+          <FormItem
+              labelCol={{span: 5}}
+              wrapperCol={{span: 19}}
+              label='异步执行'
+          >
+            {getFieldDecorator('asyncExe', {
+                valuePropName: 'checked',
+                initialValue: editData ? editData.asyncExe : false,
+            })(
+                <Checkbox/>
+            )}
+          </FormItem>
         </Form>
       </ExtModal>
     );

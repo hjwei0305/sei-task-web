@@ -20,9 +20,6 @@ export default {
   mountElementId: name,
   plugins: [
     ['@umijs/plugin-qiankun'],
-    ['umi-plugin-cache-route', {
-      keepalive: ['/job'],
-    }],
     [
       'umi-plugin-react',
       {
