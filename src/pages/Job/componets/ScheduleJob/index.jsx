@@ -139,7 +139,7 @@ class ScheduleJob extends Component {
       },
       {
         title: "作业状态",
-        dataIndex: "stateRemark",
+        dataIndex: "jobStateRemark",
         width: 100,
         required: true,
       },
