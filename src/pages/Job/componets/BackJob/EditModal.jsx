@@ -59,7 +59,7 @@ class EditModal extends PureComponent {
           dataIndex: 'name',
         },
         {
-          title: 'API基地址',
+          title: '服务名',
           width: 220,
           dataIndex: 'apiBaseAddress',
         },
