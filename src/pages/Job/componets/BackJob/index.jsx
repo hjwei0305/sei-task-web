@@ -168,7 +168,13 @@ class BackJob extends Component {
         required: true,
       },
       {
-        title: "应用模块名称",
+        title: "服务名",
+        dataIndex: "appModuleCode",
+        width: 100,
+        required: true,
+      },
+      {
+        title: "应用模块",
         dataIndex: "appModuleName",
         width: 180,
         required: true,
@@ -237,6 +243,7 @@ class BackJob extends Component {
       columns,
       bordered: false,
       remotePaging: true,
+      searchProperties: ['code', 'name', 'appModuleCode'],
       store: {
         type: 'POST',
         url: `${TASK_SERVER_PATH}/job/findByPage`,

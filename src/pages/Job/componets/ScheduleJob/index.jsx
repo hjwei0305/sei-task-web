@@ -132,7 +132,7 @@ class ScheduleJob extends Component {
         required: true,
       },
       {
-        title: "作业组",
+        title: "服务名",
         dataIndex: "group",
         width: 160,
         required: true,
@@ -186,6 +186,7 @@ class ScheduleJob extends Component {
       toolBar,
       columns,
       bordered: false,
+      searchProperties: ['code', 'name', 'group'],
       store: {
         url: `${TASK_SERVER_PATH}/scheduleJob/getJobStates`,
       }
