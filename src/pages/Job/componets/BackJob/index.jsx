@@ -243,7 +243,7 @@ class BackJob extends Component {
       columns,
       bordered: false,
       remotePaging: true,
-      searchProperties: ['code', 'name', 'appModuleCode'],
+      searchProperties: ['name', 'appModuleCode'],
       store: {
         type: 'POST',
         url: `${TASK_SERVER_PATH}/job/findByPage`,
