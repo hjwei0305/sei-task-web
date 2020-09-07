@@ -1,4 +1,4 @@
-import { utils } from 'seid';
+import { utils } from 'suid';
 
 const { sessionStorage, localStorage } = utils.storage;
 const { CONST_GLOBAL } = utils.constants;

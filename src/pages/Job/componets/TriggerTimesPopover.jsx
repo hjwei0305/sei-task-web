@@ -1,6 +1,6 @@
 import React from 'react';
 import { Popover, Skeleton, List, } from 'antd';
-import { ScrollBar, } from 'seid';
+import { ScrollBar, } from 'suid';
 
 export default class TriggerTimesPopover extends React.PureComponent {
 

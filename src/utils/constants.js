@@ -1,4 +1,4 @@
-import { utils } from 'seid';
+import { utils } from 'suid';
 
 const { NODE_ENV, MOCK } = process.env;
 

@@ -1,7 +1,7 @@
 import React, { Component, } from 'react';
 import { connect, } from 'dva';
 import { Popconfirm, Button, } from 'antd';
-import { ExtTable, ExtIcon } from 'seid';
+import { ExtTable, ExtIcon } from 'suid';
 import moment from 'moment';
 import { formatMessage, FormattedMessage, } from "umi-plugin-react/locale";
 import cls from 'classnames';

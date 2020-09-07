@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { connect, } from 'dva';
 import { Form, Input, Checkbox, Row, Col, message, } from "antd";
 import { formatMessage, } from "umi-plugin-react/locale";
-import { ExtModal, CronInput, ComboGrid, } from 'seid'
+import { ExtModal, CronInput, ComboGrid, } from 'suid'
 import TriggerTimesPopover from '../TriggerTimesPopover';
 
 const TextArea = Input.TextArea;

@@ -1,7 +1,7 @@
 import React, { Fragment, Component, } from 'react';
 import { connect, } from 'dva';
 import { Popconfirm, Tag, Button, } from 'antd';
-import { ExtTable, ExtIcon } from 'seid';
+import { ExtTable, ExtIcon } from 'suid';
 import { formatMessage, FormattedMessage, } from "umi-plugin-react/locale";
 import cls from 'classnames';
 import EditModal from './EditModal';

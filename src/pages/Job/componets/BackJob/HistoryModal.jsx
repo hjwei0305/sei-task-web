@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { Button, Tooltip, Tag, } from "antd";
 import { FormattedMessage, } from "umi-plugin-react/locale";
-import { ExtModal, ExtTable, } from 'seid';
+import { ExtModal, ExtTable, } from 'suid';
 import moment from 'moment';
 import { constants } from '@/utils';
 

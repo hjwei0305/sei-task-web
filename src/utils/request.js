@@ -1,4 +1,4 @@
-import { utils } from 'seid';
+import { utils } from 'suid';
 import { formatMessage } from "umi-plugin-react/locale";
 import { notification } from "antd";
 import { BASE_URL, } from './constants.js';
