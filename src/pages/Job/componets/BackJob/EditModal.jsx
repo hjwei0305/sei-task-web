@@ -1,22 +1,22 @@
-import React, { PureComponent } from "react";
-import { connect, } from 'dva';
-import { Form, Input, Checkbox, Row, Col, message, } from "antd";
-import { formatMessage, } from "umi-plugin-react/locale";
-import { ExtModal, CronInput, ComboGrid, } from 'suid'
+import React, { PureComponent } from 'react';
+import { connect } from 'dva';
+import { Form, Input, Checkbox, Row, Col, message } from 'antd';
+import { formatMessage } from 'umi-plugin-react/locale';
+import { ExtModal, CronInput, ComboGrid } from 'suid';
 import TriggerTimesPopover from '../TriggerTimesPopover';
 
 const TextArea = Input.TextArea;
 const FormItem = Form.Item;
 const formItemLayout = {
   labelCol: {
-    span: 10
+    span: 10,
   },
   wrapperCol: {
-    span: 14
-  }
+    span: 14,
+  },
 };
 
-@connect(({job, loading }) => ({ job, loading, }))
+@connect(({ job, loading }) => ({ job, loading }))
 @Form.create()
 class EditModal extends PureComponent {
 
@@ -38,7 +38,7 @@ class EditModal extends PureComponent {
   };
 
   getComboGridProps = () => {
-    const { form, } = this.props;
+    const { form } = this.props;
     return {
       form,
       name: 'appModuleName',
@@ -65,13 +65,13 @@ class EditModal extends PureComponent {
         },
       ],
       searchProperties: ['code', 'name'],
-      rowKey: "id",
+      rowKey: 'id',
       reader: {
         name: 'name',
-        field: ['apiBaseAddress',],
+        field: ['apiBaseAddress'],
       },
     };
-  }
+  };
 
   getPopoverProps = () => {
     const { job, dispatch, loading, form, editData } = this.props;
@@ -90,22 +90,22 @@ class EditModal extends PureComponent {
             type: 'job/getTriggerTimes',
             payload: {
               cron,
-            }
+            },
           });
         } else {
           dispatch({
             type: 'job/updateState',
             payload: {
               triggerTimes: [],
-            }
+            },
           });
         }
-      }
-    }
-  }
+      },
+    };
+  };
 
   getCronLabel = () => {
-    const { form, editData, } = this.props;
+    const { form, editData } = this.props;
     let cron = form.getFieldValue('cronExp');
 
     if (this.firstIn && editData) {
@@ -128,17 +128,17 @@ class EditModal extends PureComponent {
       </TriggerTimesPopover>;
     }
     return compoent;
-  }
+  };
 
   render() {
     const { form, editData, onClose, saving, visible } = this.props;
     const { getFieldDecorator } = form;
     const title = editData
       ? formatMessage({
-        id: "global.edit",
-        defaultMessage: "编辑"
+        id: 'global.edit',
+        defaultMessage: '编辑',
       })
-      : formatMessage({ id: "global.add", defaultMessage: "新建" });
+      : formatMessage({ id: 'global.add', defaultMessage: '新建' });
     return (
       <ExtModal
         destroyOnClose
@@ -154,167 +154,187 @@ class EditModal extends PureComponent {
         <Form {...formItemLayout} layout="horizontal">
 
           <FormItem
-              style={{display: "none"}}
-              label="id">
-              {getFieldDecorator('id', {
-                  initialValue: editData && editData.id,
-              })(
-                  <Input/>
-              )}
+            style={{ display: 'none' }}
+            label="id">
+            {getFieldDecorator('id', {
+              initialValue: editData && editData.id,
+            })(
+              <Input/>,
+            )}
           </FormItem>
 
           <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 19}}
-              label='作业名称'
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 19 }}
+            label='作业名称'
           >
-              {getFieldDecorator('name', {
-                initialValue: editData ? editData.name : "",
-                rules: [{required: true, message: '请填写作业名称!'}]
-              })(
-                  <Input/>
-              )}
-          </FormItem>
-          <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 19}}
-              label='应用模块'
-          >
-              {getFieldDecorator('appModuleName', {
-                initialValue: editData ? editData.appModuleName : "",
-                rules: [{required: true, message: '请选择应用模块'}]
-              })(
-                  <ComboGrid {...this.getComboGridProps()}/>
-              )}
-          </FormItem>
-          <FormItem
-              {...formItemLayout}
-              style={{display: "none"}}
-              label='应用模块代码'>
-              {getFieldDecorator('appModuleCode', {
-                  initialValue: editData ? editData.appModuleCode : "",
-              })(
-                  <Input/>
-              )}
-          </FormItem>
-          <FormItem
-            labelCol={{span: 5}}
-            wrapperCol={{span: 19}}
-            label={this.getCronLabel()}
-          >
-              {getFieldDecorator('cronExp', {
-                  initialValue: editData ? editData.cronExp : "",
-                  rules: [{required: true, message: '请填写Cron表达式!'}]
-              })(
-                 <CronInput/>
-              )}
-          </FormItem>
-          <Row>
-              <Col span={12}>
-                  <FormItem
-                      {...formItemLayout}
-                      label='API服务路径'
-                  >
-                      {getFieldDecorator('apiPath', {
-                          initialValue: editData ? editData.apiPath : "",
-                          rules: [{required: true, message: '请填写API服务路径!'}]
-                      })(
-                          <TextArea autoSize={{minRows: 3, maxRows: 3}}/>
-                      )}
-                  </FormItem>
-              </Col>
-              <Col span={12}>
-                  <FormItem
-                      {...formItemLayout}
-                      label='作业说明'
-                  >
-                      {getFieldDecorator('remark', {
-                          initialValue: editData ? editData.remark : "",
-                          rules: [{required: true, message: '请填写作业说明!'}]
-                      })(
-                          <TextArea autoSize={{minRows: 3, maxRows: 3}}/>
-                      )}
-                  </FormItem>
-              </Col>
-          </Row>
-          <Row>
-              <Col span={12}>
-                  <FormItem
-                      {...formItemLayout}
-                      label="API服务方法名"
-                  >
-                      {getFieldDecorator('methodName', {
-                          initialValue: editData ? editData.methodName : "",
-                          rules: [{required: true, message: '请填写API服务方法名!'}]
-                      })(
-                          <Input/>
-                      )}
-                  </FormItem>
-              </Col>
-              <Col span={12}>
-                  <FormItem
-                      {...formItemLayout}
-                      label="禁用"
-                  >
-                      {getFieldDecorator('disable', {
-                          valuePropName: 'checked',
-                          initialValue: editData ? editData.disable : false,
-                      })(
-                          <Checkbox/>
-                      )}
-                  </FormItem>
-              </Col>
-          </Row>
-          <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 19}}
-              label='输入参数'
-          >
-              {getFieldDecorator('inputParam', {
-                  initialValue: editData ? editData.inputParam : "",
-              })(
-                  <TextArea autoSize={{minRows: 3, maxRows: 3}}/>
-              )}
-          </FormItem>
-          <Row>
-              <Col span={12}>
-                  <FormItem
-                      {...formItemLayout}
-                      label="执行人租户代码"
-                  >
-                      {getFieldDecorator('exeTenantCode', {
-                          initialValue: editData ? editData.exeTenantCode : "",
-                          // rules: [{required: true, message: '请填写执行人租户代码!'}]
-                      })(
-                          <Input />
-                      )}
-                  </FormItem>
-              </Col>
-              <Col span={12}>
-                  <FormItem
-                      {...formItemLayout}
-                      label="执行人账号"
-                  >
-                      {getFieldDecorator('exeAccount', {
-                          initialValue: editData ? editData.exeAccount : '',
-                      })(
-                          <Input />
-                      )}
-                  </FormItem>
-              </Col>
-          </Row>
-          <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 19}}
-              label='异步执行'
-          >
-            {getFieldDecorator('asyncExe', {
-                valuePropName: 'checked',
-                initialValue: editData ? editData.asyncExe : false,
+            {getFieldDecorator('name', {
+              initialValue: editData ? editData.name : '',
+              rules: [{ required: true, message: '请填写作业名称!' }],
             })(
-                <Checkbox/>
+              <Input/>,
             )}
           </FormItem>
+          <FormItem
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 19 }}
+            label='应用模块'
+          >
+            {getFieldDecorator('appModuleName', {
+              initialValue: editData ? editData.appModuleName : '',
+              rules: [{ required: true, message: '请选择应用模块' }],
+            })(
+              <ComboGrid {...this.getComboGridProps()}/>,
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            style={{ display: 'none' }}
+            label='应用模块代码'>
+            {getFieldDecorator('appModuleCode', {
+              initialValue: editData ? editData.appModuleCode : '',
+            })(
+              <Input/>,
+            )}
+          </FormItem>
+          <FormItem
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 19 }}
+            label={this.getCronLabel()}
+          >
+            {getFieldDecorator('cronExp', {
+              initialValue: editData ? editData.cronExp : '',
+              rules: [{ required: true, message: '请填写Cron表达式!' }],
+            })(
+              <CronInput/>,
+            )}
+          </FormItem>
+          <Row>
+            <Col span={12}>
+              <FormItem
+                {...formItemLayout}
+                label='API服务路径'
+              >
+                {getFieldDecorator('apiPath', {
+                  initialValue: editData ? editData.apiPath : '',
+                  rules: [{ required: true, message: '请填写API服务路径!' }],
+                })(
+                  <TextArea autoSize={{ minRows: 3, maxRows: 3 }}/>,
+                )}
+              </FormItem>
+            </Col>
+            <Col span={12}>
+              <FormItem
+                {...formItemLayout}
+                label='作业说明'
+              >
+                {getFieldDecorator('remark', {
+                  initialValue: editData ? editData.remark : '',
+                  rules: [{ required: true, message: '请填写作业说明!' }],
+                })(
+                  <TextArea autoSize={{ minRows: 3, maxRows: 3 }}/>,
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <FormItem
+                {...formItemLayout}
+                label="API服务方法名"
+              >
+                {getFieldDecorator('methodName', {
+                  initialValue: editData ? editData.methodName : '',
+                  rules: [{ required: true, message: '请填写API服务方法名!' }],
+                })(
+                  <Input/>,
+                )}
+              </FormItem>
+            </Col>
+            <Col span={12}>
+              <FormItem
+                {...formItemLayout}
+                label="禁用"
+              >
+                {getFieldDecorator('disable', {
+                  valuePropName: 'checked',
+                  initialValue: editData ? editData.disable : false,
+                })(
+                  <Checkbox/>,
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+          <FormItem
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 19 }}
+            label='输入参数'
+          >
+            {getFieldDecorator('inputParam', {
+              initialValue: editData ? editData.inputParam : '',
+            })(
+              <TextArea autoSize={{ minRows: 3, maxRows: 3 }}/>,
+            )}
+          </FormItem>
+          <Row>
+            <Col span={12}>
+              <FormItem
+                {...formItemLayout}
+                label="执行人租户代码"
+              >
+                {getFieldDecorator('exeTenantCode', {
+                  initialValue: editData ? editData.exeTenantCode : '',
+                  // rules: [{required: true, message: '请填写执行人租户代码!'}]
+                })(
+                  <Input/>,
+                )}
+              </FormItem>
+            </Col>
+            <Col span={12}>
+              <FormItem
+                {...formItemLayout}
+                label="执行人账号"
+              >
+                {getFieldDecorator('exeAccount', {
+                  initialValue: editData ? editData.exeAccount : '',
+                })(
+                  <Input/>,
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <FormItem
+                {...formItemLayout}
+                label="异常通知邮箱"
+              >
+                {getFieldDecorator('errorNotifyEmail', {
+                  initialValue: editData ? editData.errorNotifyEmail : '',
+                  rules: [
+                    {
+                      type: 'email',
+                      message: '输入格式错误，不是有效邮箱地址',
+                    },
+                  ],
+                })(
+                  <Input/>,
+                )}
+              </FormItem>
+            </Col>
+            <Col span={12}>
+              <FormItem
+                label='异步执行'
+              >
+                {getFieldDecorator('asyncExe', {
+                  valuePropName: 'checked',
+                  initialValue: editData ? editData.asyncExe : false,
+                })(
+                  <Checkbox/>,
+                )}
+              </FormItem>
+            </Col>
+          </Row>
         </Form>
       </ExtModal>
     );
