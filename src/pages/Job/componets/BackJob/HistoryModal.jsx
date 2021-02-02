@@ -57,11 +57,15 @@ class HistoryModal extends PureComponent {
         title: '异常消息',
         dataIndex: 'exceptionMessage',
         width: 140,
-        render: (text) => (
-          <Tooltip title={text}>
-            <Typography.Text copyable={{
-              text,
-            }} ellipsis>{text}</Typography.Text>
+        render: text => (
+          <Tooltip title={text} placement="left">
+            {text ? <Typography.Text
+              copyable={{
+                text,
+              }}
+              ellipsis
+            /> : null}
+            {text}
           </Tooltip>
         )
       },
