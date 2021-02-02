@@ -59,7 +59,9 @@ class HistoryModal extends PureComponent {
         width: 140,
         render: (text) => (
           <Tooltip title={text}>
-            <Typography.Text copyable={text} ellipsis>{text}</Typography.Text>
+            <Typography.Text copyable={{
+              text,
+            }} ellipsis>{text}</Typography.Text>
           </Tooltip>
         )
       },
