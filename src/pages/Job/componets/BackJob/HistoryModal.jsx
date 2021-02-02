@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Button, Tooltip, Tag, } from "antd";
+import { Button, Tooltip, Tag, Typography } from "antd";
 import { FormattedMessage, } from "umi-plugin-react/locale";
 import { ExtModal, ExtTable, } from 'suid';
 import moment from 'moment';
@@ -59,7 +59,7 @@ class HistoryModal extends PureComponent {
         width: 140,
         render: (text) => (
           <Tooltip title={text}>
-            <a href="">{text}</a>
+            <Typography.Text copyable={text} ellipsis>{text}</Typography.Text>
           </Tooltip>
         )
       },
@@ -108,6 +108,9 @@ class HistoryModal extends PureComponent {
         maskClosable={false}
         title={title}
         width={850}
+        bodyStyle={{
+          height: 500,
+        }}
         footer={null}
       >
         <ExtTable onTableRef={inst => this.tableRef = inst} {...this.getExtableProps()}/>
