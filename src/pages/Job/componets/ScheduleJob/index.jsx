@@ -1,24 +1,24 @@
-import React, { Component, } from 'react';
-import { connect, } from 'dva';
-import { Popconfirm, Button, } from 'antd';
+import React, { Component } from 'react';
+import { connect } from 'dva';
+import { Popconfirm, Button } from 'antd';
 import { ExtTable, ExtIcon } from 'suid';
 import moment from 'moment';
-import { formatMessage, FormattedMessage, } from "umi-plugin-react/locale";
+import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import cls from 'classnames';
 import { constants } from '@/utils';
 import TriggerTimesPopover from '../TriggerTimesPopover';
 
-const { TASK_SERVER_PATH, } = constants;
+const { TASK_SERVER_PATH } = constants;
 
-@connect(({ job, loading }) => ({ job, loading, }))
+@connect(({ job, loading }) => ({ job, loading }))
 class ScheduleJob extends Component {
 
   reloadData = () => {
     this.tableRef && this.tableRef.remoteDataRefresh();
-  }
+  };
 
   handleEvent = (scheduleType, row) => {
-    const { dispatch, } = this.props;
+    const { dispatch } = this.props;
     dispatch({
       type: 'job/scheduleJob',
       payload: {
@@ -30,10 +30,10 @@ class ScheduleJob extends Component {
         this.reloadData();
       }
     });
-  }
+  };
 
   getPopoverProps = (cron) => {
-    const { job, dispatch, loading, } = this.props;
+    const { job, dispatch, loading } = this.props;
 
     return {
       loading: loading.effects['job/getTriggerTimes'],
@@ -44,36 +44,36 @@ class ScheduleJob extends Component {
             type: 'job/getTriggerTimes',
             payload: {
               cron,
-            }
+            },
           });
         } else {
           dispatch({
             type: 'job/updateState',
             payload: {
               triggerTimes: [],
-            }
+            },
           });
         }
-      }
-    }
-  }
+      },
+    };
+  };
 
   getExtTableProps = () => {
     const columns = [
       {
-        title: formatMessage({ id: "global.operation", defaultMessage: "操作" }),
-        key: "operation",
+        title: formatMessage({ id: 'global.operation', defaultMessage: '操作' }),
+        key: 'operation',
         width: 180,
-        align: "center",
-        dataIndex: "id",
-        className: "action",
+        align: 'center',
+        dataIndex: 'id',
+        className: 'action',
         required: true,
         render: (text, record) => (
-          <span className={cls("action-box")}>
+          <span className={cls('action-box')}>
             <ExtIcon
               onClick={_ => this.handleEvent('triggerJob', record)}
               type="caret-right"
-              ignore='true'
+              ignore="true"
               tooltip={
                 { title: '立即执行' }
               }
@@ -110,7 +110,7 @@ class ScheduleJob extends Component {
             />
             <Popconfirm
               placement="topLeft"
-              title={formatMessage({ id: "global.delete.confirm", defaultMessage: "确定要删除吗？提示：删除后不可恢复" })}
+              title={formatMessage({ id: 'global.delete.confirm', defaultMessage: '确定要删除吗？提示：删除后不可恢复' })}
               onConfirm={_ => this.handleEvent('removeJob', record)}
             >
               <ExtIcon
@@ -123,36 +123,36 @@ class ScheduleJob extends Component {
               />
             </Popconfirm>
           </span>
-        )
+        ),
       },
       {
-        title: "作业名称",
-        dataIndex: "name",
+        title: '作业名称',
+        dataIndex: 'name',
         width: 160,
         required: true,
       },
       {
-        title: "服务名",
-        dataIndex: "group",
+        title: '服务名',
+        dataIndex: 'group',
         width: 160,
         required: true,
       },
       {
-        title: "作业状态",
-        dataIndex: "jobStateRemark",
+        title: '作业状态',
+        dataIndex: 'jobStateRemark',
         width: 100,
         required: true,
       },
       {
-        title: "下一次执行时间",
-        dataIndex: "nextFireTime",
+        title: '下一次执行时间',
+        dataIndex: 'nextFireTime',
         width: 200,
         required: true,
-        render: (text) => (moment(text).format('YYYY-MM-DD HH:mm:ss'))
+        render: (text) => (moment(text).format('YYYY-MM-DD HH:mm:ss')),
       },
       {
-        title: "调度周期",
-        dataIndex: "cronExpression",
+        title: '调度周期',
+        dataIndex: 'cronExpression',
         width: 220,
         required: true,
         render: (cron) => {
@@ -163,11 +163,11 @@ class ScheduleJob extends Component {
               <a>{cron}</a>
             </TriggerTimesPopover>
           );
-        }
+        },
       },
       {
-        title: "作业说明",
-        dataIndex: "remark",
+        title: '作业说明',
+        dataIndex: 'remark',
         width: 180,
         required: true,
       },
@@ -176,11 +176,10 @@ class ScheduleJob extends Component {
     const toolBar = {
       left: (
         <Button onClick={this.reloadData}>
-          <FormattedMessage id="global.refresh" defaultMessage="刷新" />
+          <FormattedMessage id="global.refresh" defaultMessage="刷新"/>
         </Button>
       ),
     };
-
 
     return {
       toolBar,
@@ -189,9 +188,14 @@ class ScheduleJob extends Component {
       searchProperties: ['code', 'name', 'group'],
       store: {
         url: `${TASK_SERVER_PATH}/scheduleJob/getJobStates`,
-      }
+        loaded: res => {
+          if (res.success) {
+            this.tableRef.handlerPressEnter();
+          }
+        },
+      },
     };
-  }
+  };
 
   render() {
     return (
