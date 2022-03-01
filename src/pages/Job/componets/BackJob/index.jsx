@@ -1,31 +1,31 @@
-import React, { Fragment, Component, } from 'react';
-import { connect, } from 'dva';
-import { Popconfirm, Tag, Button, } from 'antd';
+import React, { Fragment, Component } from 'react';
+import { connect } from 'dva';
+import { Popconfirm, Tag, Button } from 'antd';
 import { ExtTable, ExtIcon } from 'suid';
-import { formatMessage, FormattedMessage, } from "umi-plugin-react/locale";
+import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import cls from 'classnames';
 import EditModal from './EditModal';
 import HistoryModal from './HistoryModal';
 import TriggerTimesPopover from '../TriggerTimesPopover';
 import { constants } from '@/utils';
 
-const { TASK_SERVER_PATH, } = constants;
+const { TASK_SERVER_PATH } = constants;
 
-@connect(({job, loading, }) => ({ job, loading, }))
+@connect(({ job, loading }) => ({ job, loading }))
 class BackJob extends Component {
 
   state = {
     editVisiable: false,
     editData: null,
     historyVisible: false,
-  }
+  };
 
   reloadData = () => {
     this.tableRef && this.tableRef.remoteDataRefresh();
-  }
+  };
 
   save = (params) => {
-    const { dispatch, } = this.props;
+    const { dispatch } = this.props;
     dispatch({
       type: 'job/saveJob',
       payload: {
@@ -38,12 +38,12 @@ class BackJob extends Component {
         this.reloadData();
       });
     });
-  }
+  };
 
   handleEvent = (type, row) => {
-    const { dispatch, } = this.props;
+    const { dispatch } = this.props;
 
-    switch(type) {
+    switch (type) {
       case 'add':
       case 'edit':
         this.setState({
@@ -76,10 +76,10 @@ class BackJob extends Component {
       default:
         break;
     }
-  }
+  };
 
   getPopoverProps = (cron) => {
-    const { job, loading, dispatch, } = this.props;
+    const { job, loading, dispatch } = this.props;
 
     return {
       loading: loading.effects['job/getTriggerTimes'],
@@ -90,37 +90,37 @@ class BackJob extends Component {
             type: 'job/getTriggerTimes',
             payload: {
               cron,
-            }
+            },
           });
         } else {
           dispatch({
             type: 'job/updateState',
             payload: {
               triggerTimes: [],
-            }
+            },
           });
         }
-      }
-    }
-  }
+      },
+    };
+  };
 
   getExtTableProps = () => {
     const columns = [
       {
-        title: formatMessage({ id: "global.operation", defaultMessage: "操作" }),
-        key: "operation",
+        title: formatMessage({ id: 'global.operation', defaultMessage: '操作' }),
+        key: 'operation',
         width: 150,
-        align: "center",
-        dataIndex: "id",
-        className: "action",
+        align: 'center',
+        dataIndex: 'id',
+        className: 'action',
         required: true,
         render: (text, record) => (
-          <span className={cls("action-box")}>
+          <span className={cls('action-box')}>
             <ExtIcon
               className="edit"
               onClick={_ => this.handleEvent('edit', record)}
               type="edit"
-              ignore='true'
+              ignore="true"
               tooltip={
                 { title: '编辑' }
               }
@@ -128,7 +128,7 @@ class BackJob extends Component {
             />
             <Popconfirm
               placement="topLeft"
-              title={formatMessage({ id: "global.delete.confirm", defaultMessage: "确定要删除吗？提示：删除后不可恢复" })}
+              title={formatMessage({ id: 'global.delete.confirm', defaultMessage: '确定要删除吗？提示：删除后不可恢复' })}
               onConfirm={_ => this.handleEvent('del', record)}
             >
               <ExtIcon
@@ -159,29 +159,36 @@ class BackJob extends Component {
               }
             />
           </span>
-        )
+        ),
       },
       {
-        title: "作业名称",
-        dataIndex: "name",
-        width: 180,
+        title: '作业名称',
+        dataIndex: 'name',
+        width: 350,
         required: true,
       },
       {
-        title: "服务名",
-        dataIndex: "appModuleCode",
+        title: '执行租户',
+        dataIndex: 'exeTenantCode',
+        width: 100,
+        required: true,
+        render: t => t || '-',
+      },
+      {
+        title: '服务名',
+        dataIndex: 'appModuleCode',
         width: 100,
         required: true,
       },
       {
-        title: "应用模块",
-        dataIndex: "appModuleName",
+        title: '应用模块',
+        dataIndex: 'appModuleName',
         width: 180,
         required: true,
       },
       {
-        title: "Cron表达式",
-        dataIndex: "cronExp",
+        title: 'Cron表达式',
+        dataIndex: 'cronExp',
         width: 220,
         required: true,
         render: (cron) => {
@@ -192,31 +199,31 @@ class BackJob extends Component {
               <a>{cron}</a>
             </TriggerTimesPopover>
           );
-        }
+        },
       },
       {
-        title: "作业说明",
-        dataIndex: "remark",
+        title: '作业说明',
+        dataIndex: 'remark',
         width: 180,
         required: true,
       },
       {
-        title: "禁用",
-        dataIndex: "disable",
+        title: '禁用',
+        dataIndex: 'disable',
         width: 80,
         required: true,
         render: (text) => {
-          return <Tag color={text ? 'red' : 'green' }>{text? '是' : '否'}</Tag>
-        }
+          return <Tag color={text ? 'red' : 'green'}>{text ? '是' : '否'}</Tag>;
+        },
       },
       {
-        title: "过期",
-        dataIndex: "expired",
+        title: '过期',
+        dataIndex: 'expired',
         width: 80,
         required: true,
         render: (text) => {
-          return <Tag color={text ? 'red' : 'green' }>{text? '是' : '否'}</Tag>
-        }
+          return <Tag color={text ? 'red' : 'green'}>{text ? '是' : '否'}</Tag>;
+        },
       },
     ];
 
@@ -225,13 +232,13 @@ class BackJob extends Component {
         <Fragment>
           <Button
             type="primary"
-            onClick={_ => this.handleEvent('add') }
-            ignore='true'
+            onClick={_ => this.handleEvent('add')}
+            ignore="true"
           >
-            <FormattedMessage id="global.add" defaultMessage="新建" />
+            <FormattedMessage id="global.add" defaultMessage="新建"/>
           </Button>
           <Button onClick={this.reloadData}>
-            <FormattedMessage id="global.refresh" defaultMessage="刷新" />
+            <FormattedMessage id="global.refresh" defaultMessage="刷新"/>
           </Button>
         </Fragment>
       ),
@@ -247,30 +254,33 @@ class BackJob extends Component {
       store: {
         type: 'POST',
         url: `${TASK_SERVER_PATH}/job/findByPage`,
-      }
+      },
+      sort: {
+        field: { name: 'asc' },
+      },
     };
-  }
+  };
 
   getEditModalProps = () => {
     const { loading } = this.props;
-    const { editVisiable, editData, } = this.state;
+    const { editVisiable, editData } = this.state;
 
     return {
       visible: editVisiable,
       editData,
-      saving: loading.effects["job/saveJob"],
+      saving: loading.effects['job/saveJob'],
       onSave: this.save,
       onClose: () => {
         this.setState({
           editVisiable: false,
           editData: null,
         });
-      }
+      },
     };
-  }
+  };
 
   getHistoryModalProps = () => {
-    const { historyVisible, editData, } = this.state;
+    const { historyVisible, editData } = this.state;
 
     return {
       visible: historyVisible,
@@ -280,9 +290,9 @@ class BackJob extends Component {
           historyVisible: false,
           editData: null,
         });
-      }
+      },
     };
-  }
+  };
 
   render() {
     const { editVisiable, historyVisible } = this.state;
